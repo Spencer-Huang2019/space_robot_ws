@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:macro name="srobot" params="parent prefix *origin">
+
+        <xacro:property name="axel_offset" value="0.005"/>
+
+        <!-- robot base -->
+        <xacro:property name="base_size" value="1.4" />  <!-- Unit: m -->
+        <xacro:property name="base_mass" value="300" />   <!-- Unit: kg -->
+        <xacro:property name="base_inertia" value="50" />    <!-- Unit: kg*m^2 -->
+        <xacro:property name="base_material" value="brown"/>
+        <xacro:include filename="$(find space_robot)/description/urdf/robot_model/robot_base.urdf.xacro"/>
+        <xacro:base
+            name="base"
+            cubic_size="${base_size}"
+            base_mass="${base_mass}"
+            base_inertia="${base_inertia}"
+            material="${base_material}"
+            parent_link="${parent}"
+        >
+            <xacro:insert_block name="origin"/>
+        </xacro:base>
+
+        <!-- robot link 1 -->
+        <xacro:property name="link_1_length" value="1.94"/>
+        <xacro:property name="link_1_radius" value="0.05"/>
+        <xacro:property name="link_1_mass" value="25"/>
+        <xacro:property name="link_1_inertia" value="7.8408"/>
+        <xacro:property name="link_1_material" value="yellow"/>
+        <xacro:include filename="$(find space_robot)/description/urdf/robot_model/robot_link.urdf.xacro"/>
+        <xacro:link
+            name="link_1"
+            length="${link_1_length}"
+            radius="${link_1_radius}"
+            axel_offset="${axel_offset}"
+            mass="${link_1_mass}"
+            inertia="${link_1_inertia}"
+            material="${link_1_material}"
+            parent_link="base_link"
+        >
+            <origin xyz="${0.5 * base_size} ${0.5 * base_size} ${0.5 * (base_size + axel_offset)}"
+                rpy="0 ${-0.5 * pi} ${0.75 * pi}"/>
+        </xacro:link>
+
+        <!-- robot link 2 -->
+        <xacro:property name="link_2_length" value="1.94"/>
+        <xacro:property name="link_2_radius" value="0.05"/>
+        <xacro:property name="link_2_mass" value="25"/>
+        <xacro:property name="link_2_inertia" value="7.8408"/>
+        <xacro:property name="link_2_material" value="grey"/>
+        <xacro:include filename="$(find space_robot)/description/urdf/robot_model/robot_link.urdf.xacro"/>
+        <xacro:link
+            name="link_2"
+            length="${link_2_length}"
+            radius="${link_2_radius}"
+            axel_offset="${axel_offset}"
+            mass="${link_2_mass}"
+            inertia="${link_2_inertia}"
+            material="${link_2_material}"
+            parent_link="link_1"
+        >
+            <origin xyz="${0.5 * axel_offset + link_1_length} 0 0" rpy="0 0 0"/>
+        </xacro:link>
+
+        <xacro:include filename="$(find space_robot)/description/urdf/depth_camera.urdf.xacro"/>
+        <xacro:depth_camera parent_link="link_2" camera_name="front_depth_cam">
+            <origin xyz="${link_2_length} ${link_2_radius + 0.001} 0" rpy="0 0 0"/>
+        </xacro:depth_camera>
+
+        <xacro:include filename="$(find space_robot)/description/gazebo/depth_camera.gazebo.xacro"/>
+        <xacro:depth_camera_gazebo camera_name="front_depth_cam"/>
+
+    </xacro:macro>
+    
+</robot>
