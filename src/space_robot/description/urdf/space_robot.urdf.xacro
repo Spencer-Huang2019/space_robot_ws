@@ -12,9 +12,9 @@
 
     <xacro:include filename="$(find space_robot)/description/urdf/robot_model/robot.materials.xacro"/>
 
-    <!-- <xacro:include filename="$(find space_robot)/description/ros2_control/robot.ros2_control.xacro"/>
+    <xacro:include filename="$(find space_robot)/description/ros2_control/robot.ros2_control.xacro"/>
     <xacro:srobot_ros2_control
-        name="srobot" prefix="$(arg prefix)" use_gazebo="$(arg use_gazebo)"/> -->
+        name="srobot" prefix="$(arg prefix)" use_gazebo="$(arg use_gazebo)"/>
 
     <xacro:if value="$(arg use_gazebo)">
         <!-- Import Gazebo Classic definitions + plugin -->

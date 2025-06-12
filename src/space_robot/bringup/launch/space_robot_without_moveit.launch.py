@@ -62,6 +62,7 @@ def generate_launch_description():
         package='controller_manager',
         executable='ros2_control_node',
         parameters=[
+            # {'use_sim_time': 'true'},  # 如果使用 Gazebo/Ignition 仿真，设为 True
             controller_config
         ],
         output='both',
@@ -79,6 +80,7 @@ def generate_launch_description():
     gz_sim_node = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(pkg_path, 'bringup', 'launch', 'gazebo.launch.py')),
+            # launch_arguments={'gui': gui, 'use_sim_time': use_sim_time}.items(),
             condition=IfCondition(LaunchConfiguration("use_gazebo"))
     )
     ld.add_action(gz_sim_node)
