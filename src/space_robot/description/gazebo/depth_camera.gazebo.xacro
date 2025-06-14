@@ -20,10 +20,6 @@
                 <update_rate>30</update_rate>
                 <visualize>true</visualize>
                 <topic>rgbd_camera</topic>
-                <plugin
-                    filename="RosGzPointCloud"
-                    name="ros_gz_point_cloud::PointCloud">
-                </plugin>
             </sensor>
 
             <!-- <sensor name="rgbd_camera" type="rgbd_camera">

@@ -38,18 +38,21 @@ def generate_launch_description():
         )
     )
 
-    floating_tf_publisher_node = Node(
-        package='space_robot',
-        executable='floating_tf_publisher'
-    )
-    ld.add_action(floating_tf_publisher_node)
+    # floating_tf_publisher_node = Node(
+    #     package='space_robot',
+    #     executable='floating_tf_publisher'
+    # )
+    # ld.add_action(floating_tf_publisher_node)
     
     # robot_state_publisher
     robot_state_publisher_node = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(pkg_path, 'bringup/launch/rps.launch.py')
         ),
-        launch_arguments={'publish_frequency': LaunchConfiguration('publish_frequency')}.items(),
+        launch_arguments={
+            'publish_frequency': LaunchConfiguration('publish_frequency'),
+            'use_gazebo': LaunchConfiguration('use_gazebo'),
+        }.items(),
     )
     ld.add_action(robot_state_publisher_node)
 

@@ -3,11 +3,6 @@
 
     <xacro:macro name="base" params="name cubic_size base_mass base_inertia material parent_link *origin">
 
-        <joint name="base_joint" type="floating">
-            <parent link="${parent_link}"/>
-            <child link="${name}_link"/>
-            <xacro:insert_block name="origin"/>
-        </joint>
 
         <link name="${name}_link">
             <visual>
