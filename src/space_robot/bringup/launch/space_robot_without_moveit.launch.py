@@ -15,7 +15,6 @@ def generate_launch_description():
     pkg_path = get_package_share_directory('space_robot')
 
     ld = LaunchDescription()
-    pkg_path = get_package_share_directory('space_robot')
 
     ld.add_action(
         DeclareBooleanLaunchArg(
