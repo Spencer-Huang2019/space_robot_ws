@@ -1,0 +1,25 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: space_robot
+    relative_path: description/urdf/space_robot.urdf.xacro
+  srdf:
+    relative_path: config/space_robot.srdf
+  package_settings:
+    author_name: spencer
+    author_email: spencer.huanhuan@outlook.com
+    generated_timestamp: 1749991640
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
+  modified_urdf:
+    xacros:
+      - control_xacro
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
