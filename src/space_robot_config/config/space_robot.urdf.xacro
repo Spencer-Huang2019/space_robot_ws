@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="space_robot">
+    <xacro:arg name="initial_positions_file" default="initial_positions.yaml" />
+
+    <!-- Import space_robot urdf file -->
+    <xacro:arg name="use_gazebo" default="false" />
+
+    <!-- Import space_robot urdf file -->
+    <xacro:include filename="$(find space_robot_config)/description/urdf/robot_description.urdf.xacro"/>
+    <xacro:srobot parent="world" use_gazebo="$(arg use_gazebo)">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </xacro:srobot>
+
+    <!-- Import control_xacro -->
+    <xacro:include filename="$(find space_robot_config)/description/ros2_control/space_robot.ros2_control.xacro" />
+
+
+    <xacro:space_robot_ros2_control name="FakeSystem" initial_positions_file="$(arg initial_positions_file)"/>
+
+</robot>

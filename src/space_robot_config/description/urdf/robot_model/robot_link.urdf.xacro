@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robot_link">
+
+    <xacro:macro name="link" params="name length radius axel_offset mass inertia material parent_link *origin">
+
+        <joint name="${name}_joint" type="revolute">
+            <parent link="${parent_link}"/>
+            <child link="${name}"/>
+            <xacro:insert_block name="origin"/>
+            <axis xyz="0 0 1"/>
+            <limit 
+                lower="-3.14" 
+                upper="3.14" 
+                velocity="1.0"
+                effort="1000.0"
+            />
+        </joint>
+
+        <link name="${name}">
+            <visual>
+                <geometry>
+                    <cylinder length="${length}" radius="${radius}"/>
+                </geometry>
+                <material name="${material}"/>
+                <origin xyz="${0.5 * (length + axel_offset)} 0 0" rpy="0 ${0.5 * pi} 0"/>
+            </visual>
+            <collision>
+                <geometry>
+                    <cylinder length="${length}" radius="${radius + 0.001}"/>
+                </geometry>
+                <origin xyz="${0.5 * (length + axel_offset)} 0 0" rpy="0 ${0.5 * pi} 0"/>
+            </collision>
+            <inertial>
+                <mass value="${mass}" />
+                <origin xyz="${0.5 * (length + axel_offset)} 0 0" rpy="0 ${0.5 * pi} 0"/>
+                <inertia
+                    ixx="${inertia}" ixy="0" ixz="0"
+                    iyy="${inertia}" iyz="0"
+                    izz="${inertia}"
+                />
+            </inertial>
+        </link>
+
+    </xacro:macro>
+
+</robot>
