@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:macro name="srobot_gazebo">
+    <xacro:macro name="srobot_gazebo" params="name">
 
     <!-- gz_ros_control plugin -->
     <gazebo>
@@ -15,6 +15,14 @@
           <use_pose_vector_msg>true</use_pose_vector_msg>
           <update_frequency>10</update_frequency>
       </plugin>
+    </gazebo>
+
+    <gazebo>
+      <joint name='base_joint' type='fixed'>
+        <pose relative_to='__model__'>0 0 0 0 0 0</pose>
+        <parent>world</parent>
+        <child>base_link</child>
+      </joint>
     </gazebo>
 
     <!-- Base -->
@@ -51,6 +59,6 @@
       </material>
     </gazebo>
 
-  </xacro:macro>
+    </xacro:macro>
 
 </robot>

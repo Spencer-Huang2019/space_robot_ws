@@ -14,8 +14,15 @@
 
     <!-- Import control_xacro -->
     <xacro:include filename="$(find space_robot_config)/description/ros2_control/space_robot.ros2_control.xacro" />
-
-
     <xacro:space_robot_ros2_control name="FakeSystem" initial_positions_file="$(arg initial_positions_file)"/>
+
+    <!-- Gazebo -->
+    <xacro:if value="$(arg use_gazebo)">
+        <xacro:include filename="$(find space_robot_config)/description/gazebo/depth_camera.gazebo.xacro"/>
+        <xacro:depth_camera_gazebo camera_name="front_depth_cam"/>
+
+        <xacro:include filename="$(find space_robot_config)/description/gazebo/robot.gazebo.xacro" />
+        <xacro:srobot_gazebo name="srobot_gazebo"/>
+    </xacro:if>
 
 </robot>

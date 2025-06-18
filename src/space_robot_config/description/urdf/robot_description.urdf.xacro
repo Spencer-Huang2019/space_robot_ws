@@ -5,14 +5,12 @@
 
         <xacro:property name="axel_offset" value="0.005"/>
 
-        <xacro:unless value="${use_gazebo}">
-            <link name="${parent}"/>
-            <joint name="base_joint" type="floating">
-                <origin xyz="0 0 0" rpy="0 0 0"/>
-                <parent link="${parent}" />
-                <child link="base_link" />
-            </joint>
-        </xacro:unless>
+        <link name="${parent}"/>
+        <joint name="base_joint" type="floating">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <parent link="${parent}" />
+            <child link="base_link" />
+        </joint>
 
         <!-- robot base -->
         <xacro:property name="base_size" value="1.4" />  <!-- Unit: m -->
@@ -76,9 +74,6 @@
         <xacro:depth_camera parent_link="link_2" camera_name="front_depth_cam">
             <origin xyz="${link_2_length} ${link_2_radius + 0.001} 0" rpy="0 0 0"/>
         </xacro:depth_camera>
-
-        <xacro:include filename="$(find space_robot_config)/description/gazebo/depth_camera.gazebo.xacro"/>
-        <xacro:depth_camera_gazebo camera_name="front_depth_cam"/>
 
     </xacro:macro>
     

@@ -31,7 +31,7 @@ def generate_launch_description():
     ld.add_action(
         DeclareBooleanLaunchArg(
             "use_gazebo",
-            default_value=False
+            default_value=True
         )
     )
     ld.add_action(
