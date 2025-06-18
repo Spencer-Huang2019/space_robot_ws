@@ -10,7 +10,7 @@
         <origin xyz="0 0 0" rpy="0 0 0"/>
     </xacro:srobot>
 
-    <xacro:include filename="$(find space_robot)/description/urdf/robot_model/robot.materials.xacro"/>
+    <xacro:include filename="$(find space_robot_config)/description/urdf/robot_model/robot.materials.xacro"/>
 
     <!-- Import control_xacro -->
     <xacro:include filename="$(find space_robot_config)/description/ros2_control/space_robot.ros2_control.xacro" />
