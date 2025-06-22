@@ -6,24 +6,35 @@ namespace planning {
 
     CustomTrajectoryPublisher::CustomTrajectoryPublisher(const rclcpp::NodeOptions& options): Node("custom_trajectory_publisher", options)
     {
-        move_group_ = std::make_shared<moveit::planning_interface::MoveGroupInterface>(
-            shared_from_this(), "space_robot_arm"
-        );
-
-        traj_pub_ = this->create_publisher<trajectory_msgs::msg::JointTrajectory>(
-            "/custom_trajectory", 10
-        );
-
+        
         timer_ = this->create_wall_timer(
-            std::chrono::seconds(1),
-            std::bind(&CustomTrajectoryPublisher::publish_custom_trajectory, this)
-        );
+            std::chrono::milliseconds(100),
+            [this](){
+                move_group_ = std::make_shared<moveit::planning_interface::MoveGroupInterface>(
+                    shared_from_this(), "space_robot_arm"
+                );
+
+                traj_pub_ = this->create_publisher<trajectory_msgs::msg::JointTrajectory>(
+                    "/custom_trajectory", 10
+                );
+                
+                timer_->cancel();
+                // timer_ = this->create_wall_timer(
+                //     std::chrono::seconds(1),
+                //     std::bind(&CustomTrajectoryPublisher::publish_custom_trajectory, this)
+                // );
+                this->publish_custom_trajectory();
+                std::chrono::seconds(1);
+            });
     }
 
     void CustomTrajectoryPublisher::publish_custom_trajectory()
     {
         std::vector<std::string> joint_names = move_group_->getJointNames();
-        std::vector<double> current_joint_values = move_group_->getCurrentJointValues();
+        RCLCPP_INFO(this->get_logger(), "joing names: %s, %s", joint_names[0].c_str(), joint_names[1].c_str());
+        // std::vector<double> current_joint_values = move_group_->getCurrentJointValues();
+        std::vector<double> current_joint_values = {0.0, 0.0};
+        
 
         auto trajectory = std::make_shared<trajectory_msgs::msg::JointTrajectory>();
         trajectory->joint_names = joint_names;
@@ -36,7 +47,7 @@ namespace planning {
             trajectory_msgs::msg::JointTrajectoryPoint point;
             point.time_from_start = rclcpp::Duration::from_seconds((duration * i) / num_points);
 
-            for (size_t j = 0; j < current_joint_values.size(); ++j)
+            for (size_t j = 0; j < joint_names.size(); ++j)
             {
                 double amplitude = 0.5;
                 double offset = current_joint_values[j];
