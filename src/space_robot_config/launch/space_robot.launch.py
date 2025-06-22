@@ -31,7 +31,7 @@ def generate_launch_description():
     ld.add_action(
         DeclareBooleanLaunchArg(
             "use_gazebo",
-            default_value=True
+            default_value=False
         )
     )
     ld.add_action(
@@ -55,7 +55,7 @@ def generate_launch_description():
         MoveItConfigsBuilder("space_robot", package_name="space_robot_config")
         .robot_description(
             file_path=str(urdf_path),
-            mappings={"use_gazebo": "true"}  # 传递参数
+            mappings={"use_gazebo": LaunchConfiguration('use_gazebo')}  # 传递参数
         )
         .to_moveit_configs()
     )
@@ -113,6 +113,7 @@ def generate_launch_description():
         )
     )
 
+    # print(moveit_config.robot_description)
     # Fake joint driver
     ld.add_action(
         Node(
@@ -122,6 +123,18 @@ def generate_launch_description():
                 moveit_config.robot_description,
                 str(moveit_config.package_path / "config/ros2_controllers.yaml"),
             ],
+            condition=UnlessCondition(LaunchConfiguration('use_gazebo'))
+        )
+    )
+
+    ld.add_action(
+        Node(
+            package="controller_manager",
+            executable="ros2_control_node",
+            parameters=[
+                str(moveit_config.package_path / "config/ros2_controllers.yaml"),
+            ],
+            condition=IfCondition(LaunchConfiguration('use_gazebo'))
         )
     )
 
