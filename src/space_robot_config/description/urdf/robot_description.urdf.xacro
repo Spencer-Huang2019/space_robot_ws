@@ -5,12 +5,14 @@
 
         <xacro:property name="axel_offset" value="0.005"/>
 
-        <link name="${parent}"/>
-        <joint name="base_joint" type="floating">
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-            <parent link="${parent}" />
-            <child link="base_link" />
-        </joint>
+        <xacro:unless value="${use_gazebo}">
+            <link name="${parent}"/>
+            <joint name="base_joint" type="floating">
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <parent link="${parent}" />
+                <child link="base_link" />
+            </joint>
+        </xacro:unless>
 
         <!-- robot base -->
         <xacro:property name="base_size" value="1.4" />  <!-- Unit: m -->
