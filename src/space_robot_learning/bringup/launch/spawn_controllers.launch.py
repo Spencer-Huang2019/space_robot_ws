@@ -7,11 +7,20 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     ld = LaunchDescription()
+    # ld.add_action(
+    #     Node(
+    #         package="controller_manager",
+    #         executable="spawner",
+    #         arguments=['forward_position_controller', '--controller-manager', '/controller_manager'],
+    #         output="screen",
+    #     )
+    # )
+
     ld.add_action(
         Node(
             package="controller_manager",
             executable="spawner",
-            arguments=['forward_position_controller', '--controller-manager', '/controller_manager'],
+            arguments=['space_robot_arm_controller', '--controller-manager', '/controller_manager'],
             output="screen",
         )
     )

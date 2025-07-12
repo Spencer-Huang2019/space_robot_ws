@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="simple_gripper">
+
+
+<xacro:property name="gripper_base_width" value="0.02" />
+<xacro:property name="gripper_base_length" value="0.15" />
+<xacro:property name="gripper_base_height" value="0.02" />
+<xacro:property name="gripper_base_mass" value="0.1" />
+<xacro:property name="gripper_base_inertia" value="0.001" />
+
+<xacro:property name="finger_width" value="0.05" />
+<xacro:property name="finger_thickness" value="0.02" />
+<xacro:property name="finger_length" value="0.1" />
+<xacro:property name="finger_mass" value="0.05" />
+<xacro:property name="finger_inertia" value="0.001" />
+
+<xacro:property name="finger_joint_limit" value="0.025" />
+<xacro:property name="finger_joint_effort" value="10" />
+<xacro:property name="finger_joint_velocity" value="0.1" />
+
+<xacro:property name="gripper_color" value="0 0 0.8 1" />
+<xacro:property name="finger_color" value="0.8 0 0 1" />
+
+
+<xacro:macro name="gripper_base" params="parent *origin">
+    <joint name="gripper_attach" type="fixed">
+        <parent link="${parent}" />
+        <child link="finger_base" />
+        <xacro:insert_block name="origin" />
+    </joint>
+
+    <link name="finger_base">
+        <visual>
+            <geometry>
+                <box size="${gripper_base_width} ${gripper_base_length} ${gripper_base_height}" />
+            </geometry>
+            <material name="blue">
+                <color rgba="${gripper_color}" />
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="${gripper_base_width} ${gripper_base_length} ${gripper_base_height}" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="${gripper_base_mass}" />
+            <inertia ixx="${gripper_base_inertia}" ixy="0" ixz="0"
+                    iyy="${gripper_base_inertia}" iyz="0"
+                    izz="${gripper_base_inertia}" />
+        </inertial>
+    </link>
+</xacro:macro>
+
+<xacro:macro name="finger" params="prefix reflect">
+    <joint name="${prefix}_finger_joint" type="prismatic">
+        <parent link="finger_base" />
+        <child link="${prefix}_finger" />
+        <limit effort="${finger_joint_effort}" 
+               velocity="${finger_joint_velocity}" 
+               lower="-${finger_joint_limit}" 
+               upper="${finger_joint_limit}"/>
+        <axis xyz="${reflect}1 0 0" />
+        <origin xyz="${finger_length + gripper_base_height} 0 0" rpy="0 ${0.5 * pi} 0" />
+    </joint>
+    <link name="${prefix}_finger">
+        <visual>
+            <geometry>
+                <box size="${finger_width} ${finger_thickness} ${finger_length}" />
+            </geometry>
+            <material name="red">
+                <color rgba="${finger_color}" />
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="${finger_width} ${finger_thickness} ${finger_length}" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="${finger_mass}" />
+            <inertia ixx="${finger_inertia}" ixy="0" ixz="0"
+                     iyy="${finger_inertia}" iyz="0"
+                     izz="${finger_inertia}" />
+        </inertial>
+    </link>
+</xacro:macro>
+
+</robot>

@@ -17,6 +17,13 @@
       </plugin>
     </gazebo>
 
+    <gazebo reference="left_finger_joint">
+        <preserveFixedJoint>false</preserveFixedJoint>
+    </gazebo>
+    <gazebo reference="right_finger_joint">
+        <preserveFixedJoint>false</preserveFixedJoint>
+    </gazebo>
+
     <!-- Base -->
     <gazebo reference="base_link">
       <material>

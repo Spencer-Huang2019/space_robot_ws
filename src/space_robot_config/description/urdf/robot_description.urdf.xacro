@@ -72,6 +72,14 @@
             <origin xyz="${0.5 * axel_offset + link_1_length} 0 0" rpy="0 0 0"/>
         </xacro:link>
 
+        <!-- gripper -->
+        <xacro:include filename="$(find space_robot_config)/description/urdf/robot_model/gripper.urdf.xacro" />
+        <xacro:gripper_base parent="link_2">
+            <origin xyz="${link_2_length + 0.01} 0 0" rpy="${0.5 * pi} 0 0" />
+        </xacro:gripper_base>
+        <xacro:finger prefix="left" reflect="-" />
+        <xacro:finger prefix="right" reflect="" />
+
         <xacro:include filename="$(find space_robot_config)/description/urdf/depth_camera.urdf.xacro"/>
         <xacro:depth_camera parent_link="link_2" camera_name="front_depth_cam">
             <origin xyz="${link_2_length} ${link_2_radius + 0.001} 0" rpy="0 0 0"/>

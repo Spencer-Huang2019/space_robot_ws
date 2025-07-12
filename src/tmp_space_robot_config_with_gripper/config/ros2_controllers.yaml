@@ -6,8 +6,10 @@ controller_manager:
     space_robot_arm_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
+
     gripper_controller:
       type: joint_trajectory_controller/JointTrajectoryController
+
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
@@ -22,7 +24,6 @@ space_robot_arm_controller:
     state_interfaces:
       - position
       - velocity
-
 gripper_controller:
   ros__parameters:
     joints:

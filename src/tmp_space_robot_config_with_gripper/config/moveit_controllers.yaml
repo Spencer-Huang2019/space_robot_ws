@@ -9,14 +9,11 @@ moveit_simple_controller_manager:
 
   space_robot_arm_controller:
     type: FollowJointTrajectory
-    action_ns: follow_joint_trajectory
     joints:
       - link_1_joint
       - link_2_joint
-
   gripper_controller:
     type: FollowJointTrajectory
-    action_ns: follow_joint_trajectory
     joints:
       - left_finger_joint
       - right_finger_joint
